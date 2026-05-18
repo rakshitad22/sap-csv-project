@@ -1,11 +1,13 @@
 import os
 from pathlib import Path
 
-# Build paths inside the project
+# Base Directory
+
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 
-# SECURITY
+# SECURITY SETTINGS
+
 SECRET_KEY = "django-insecure-q*t3$q6f(p)b!k0t4=b#q&njbw#scq%c=2t1+q_mv#nu_#@)ab"
 
 DEBUG = True
@@ -13,7 +15,7 @@ DEBUG = True
 ALLOWED_HOSTS = ['*']
 
 
-# APPLICATIONS
+# INSTALLED APPS
 
 INSTALLED_APPS = [
     "django.contrib.admin",
@@ -30,18 +32,27 @@ INSTALLED_APPS = [
 # MIDDLEWARE
 
 MIDDLEWARE = [
+
     'django.middleware.security.SecurityMiddleware',
 
     'whitenoise.middleware.WhiteNoiseMiddleware',
 
     "django.contrib.sessions.middleware.SessionMiddleware",
+
     "django.middleware.common.CommonMiddleware",
+
     "django.middleware.csrf.CsrfViewMiddleware",
+
     "django.contrib.auth.middleware.AuthenticationMiddleware",
+
     "django.contrib.messages.middleware.MessageMiddleware",
+
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+
 ]
 
+
+# ROOT URL
 
 ROOT_URLCONF = "core.urls"
 
@@ -58,14 +69,20 @@ TEMPLATES = [
 
         "OPTIONS": {
             "context_processors": [
+
                 "django.template.context_processors.request",
+
                 "django.contrib.auth.context_processors.auth",
+
                 "django.contrib.messages.context_processors.messages",
+
             ],
         },
     },
 ]
 
+
+# WSGI
 
 WSGI_APPLICATION = "core.wsgi.application"
 
@@ -81,9 +98,10 @@ DATABASES = {
 }
 
 
-# PASSWORD VALIDATION
+# PASSWORD VALIDATORS
 
 AUTH_PASSWORD_VALIDATORS = [
+
     {
         "NAME": "django.contrib.auth.password_validation.UserAttributeSimilarityValidator",
     },
@@ -99,10 +117,11 @@ AUTH_PASSWORD_VALIDATORS = [
     {
         "NAME": "django.contrib.auth.password_validation.NumericPasswordValidator",
     },
+
 ]
 
 
-# LANGUAGE
+# LANGUAGE SETTINGS
 
 LANGUAGE_CODE = "en-us"
 
@@ -123,3 +142,18 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 # DEFAULT PRIMARY KEY
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
+
+
+# EMAIL CONFIGURATION FOR OTP
+
+EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+
+EMAIL_HOST = 'smtp.gmail.com'
+
+EMAIL_PORT = 587
+
+EMAIL_USE_TLS = True
+
+EMAIL_HOST_USER = 'rakshitad76@gmail.com'
+
+EMAIL_HOST_PASSWORD = 'fbsdzsjjkscuzmbp'
