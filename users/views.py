@@ -15,12 +15,21 @@ def register_page(request):
         email = request.POST['email']
         password = request.POST['password']
 
+        # Username check
         if User.objects.filter(username=username).exists():
 
             return render(request, 'register.html', {
                 'error': 'Username already exists'
             })
 
+        # Email check
+        if User.objects.filter(email=email).exists():
+
+            return render(request, 'register.html', {
+                'error': 'Email already registered'
+            })
+
+        # Create user
         User.objects.create_user(
             username=username,
             email=email,
@@ -46,8 +55,16 @@ def login_page(request):
         )
 
         if user is not None:
+
             login(request, user)
+
             return redirect('/dashboard/')
+
+        else:
+
+            return render(request, 'login.html', {
+                'error': 'Invalid username or password'
+            })
 
     return render(request, 'login.html')
 
@@ -66,7 +83,8 @@ def dashboard(request):
 
         response = HttpResponse(content_type='text/csv')
 
-        response['Content-Disposition'] = 'attachment; filename="data.csv"'
+        # Dynamic filename
+        response['Content-Disposition'] = f'attachment; filename=\"{name}.csv\"'
 
         writer = csv.writer(response)
 
@@ -77,9 +95,13 @@ def dashboard(request):
 
     data = UserData.objects.filter(user=request.user)
 
-    return render(request, 'dashboard.html', {'data': data})
+    return render(request, 'dashboard.html', {
+        'data': data
+    })
 
 
 def logout_page(request):
+
     logout(request)
+
     return redirect('/')
