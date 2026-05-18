@@ -88,8 +88,13 @@ def dashboard(request):
 
         writer = csv.writer(response)
 
-        writer.writerow(['Name'])
-        writer.writerow([name])
+        writer.writerow(['Name', 'Email', 'Generated Date'])
+
+        writer.writerow([
+            name,
+            request.user.email,
+            str(UserData.objects.latest('id').created_at)
+        ])
 
         return response
 

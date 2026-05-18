@@ -39,6 +39,20 @@
             margin-bottom:30px;
         }
 
+        .analytics-card{
+            background:white;
+            border-radius:20px;
+            padding:25px;
+            text-align:center;
+            box-shadow:0px 0px 20px rgba(0,0,0,0.3);
+            margin-bottom:20px;
+        }
+
+        .analytics-card h2{
+            color:#0d6efd;
+            font-weight:bold;
+        }
+
         .form-control{
             height:50px;
             border-radius:10px;
@@ -75,6 +89,58 @@
 
     </div>
 
+    <!-- Analytics Section -->
+
+    <div class="row mb-4">
+
+        <div class="col-md-4">
+
+            <div class="analytics-card">
+
+                <h5>Total Downloads</h5>
+
+                <h2>
+                    {{ data|length }}
+                </h2>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-4">
+
+            <div class="analytics-card">
+
+                <h5>User Email</h5>
+
+                <p>
+                    {{ request.user.email }}
+                </p>
+
+            </div>
+
+        </div>
+
+        <div class="col-md-4">
+
+            <div class="analytics-card">
+
+                <h5>Last Generated</h5>
+
+                {% if data %}
+                    <p>{{ data.last.entered_name }}</p>
+                {% else %}
+                    <p>No Data</p>
+                {% endif %}
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- CSV Generator -->
+
     <div class="card-box">
 
         <h2 class="text-center mb-4">
@@ -106,11 +172,20 @@
 
     </div>
 
+    <!-- History -->
+
     <div class="card-box">
 
         <h3>
             Download History
         </h3>
+
+        <!-- Search Box -->
+
+        <input type="text"
+               id="searchInput"
+               class="form-control mb-3"
+               placeholder="Search history...">
 
         <table class="table table-bordered">
 
@@ -128,8 +203,15 @@
                 {% for item in data %}
 
                 <tr>
-                    <td>{{ item.entered_name }}</td>
-                    <td>{{ item.created_at }}</td>
+
+                    <td>
+                        {{ item.entered_name }}
+                    </td>
+
+                    <td>
+                        {{ item.created_at }}
+                    </td>
+
                 </tr>
 
                 {% endfor %}
@@ -141,6 +223,32 @@
     </div>
 
 </div>
+
+<!-- Search Script -->
+
+<script>
+
+const searchInput = document.getElementById("searchInput");
+
+searchInput.addEventListener("keyup", function() {
+
+    let filter = searchInput.value.toLowerCase();
+
+    let rows = document.querySelectorAll("tbody tr");
+
+    rows.forEach(row => {
+
+        let text = row.innerText.toLowerCase();
+
+        row.style.display = text.includes(filter)
+            ? ""
+            : "none";
+
+    });
+
+});
+
+</script>
 
 </body>
 </html>
