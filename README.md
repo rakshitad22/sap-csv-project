@@ -2,11 +2,15 @@
 
 A professional Django-based web application developed as part of the SAP Code Unnati Advanced Course.
 
-## 🚀 Live Project
+---
+
+# 🚀 Live Project
 
 https://sap-csv-project.onrender.com
 
-## 📂 GitHub Repository
+---
+
+# 📂 GitHub Repository
 
 https://github.com/rakshitad22/sap-csv-project
 
@@ -43,25 +47,38 @@ https://github.com/rakshitad22/sap-csv-project
 # 📸 Project Modules
 
 ## 1. Login Module
+
 Users can securely log in using username and password.
 
+---
+
 ## 2. Registration Module
+
 New users can create accounts with unique username and email validation.
 
+---
+
 ## 3. Dashboard Module
+
 Displays:
+
 - Total Downloads
 - User Email
 - Last Generated CSV
 - Download History
 
+---
+
 ## 4. CSV Generator Module
+
 Users can:
+
 - Enter Name
 - Generate CSV File
 - Download CSV instantly
 
 Generated CSV contains:
+
 - Username
 - Entered Name
 - Email
@@ -81,22 +98,52 @@ The project is successfully deployed on Render Cloud Platform.
 
 ```bash
 git clone https://github.com/rakshitad22/sap-csv-project.git
+```
 
-Move to Project Folder
+## Move to Project Folder
+
+```bash
 cd sap-csv-project
-Create Virtual Environment
-python -m venv venv
-Activate Virtual Environment
-Windows
-venv\Scripts\activate
-Install Requirements
-pip install -r requirements.txt
-Run Migrations
-python manage.py migrate
-Start Server
-python manage.py runserver
-👩‍💻 Developed By
+```
 
-Rakshita D
-SKIT
+## Create Virtual Environment
+
+```bash
+python -m venv venv
+```
+
+## Activate Virtual Environment
+
+### Windows
+
+```bash
+venv\Scripts\activate
+```
+
+## Install Requirements
+
+```bash
+pip install -r requirements.txt
+```
+
+## Run Migrations
+
+```bash
+python manage.py migrate
+```
+
+## Start Server
+
+```bash
+python manage.py runserver
+```
+
+---
+
+# 👩‍💻 Developed By
+
+Rakshita D  
+SKIT  
 SAP Code Unnati Advanced Course
+
+---
