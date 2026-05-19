@@ -44,6 +44,8 @@ def register_page(request):
         request.session['password'] = password
 
         # Send OTP Email
+    try:
+
         send_mail(
             'OTP Verification',
             f'Your OTP is: {otp}',
@@ -51,6 +53,9 @@ def register_page(request):
             [email],
             fail_silently=True,
         )
+
+    except:
+        pass
 
         return redirect('/verify-otp/')
 
