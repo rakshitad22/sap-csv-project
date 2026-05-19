@@ -49,7 +49,7 @@ def register_page(request):
             f'Your OTP is: {otp}',
             'rakshitad76@gmail.com',
             [email],
-            fail_silently=False,
+            fail_silently=True,
         )
 
         return redirect('/verify-otp/')
