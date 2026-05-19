@@ -94,13 +94,17 @@ def dashboard(request):
         writer = csv.writer(response)
 
         writer.writerow([
-            'Name',
-            'Email'
+            'Username',
+            'Entered Name',
+            'Email',
+            'Download Time'
         ])
 
         writer.writerow([
+            request.user.username,
             name,
-            request.user.email
+            request.user.email,
+            str(UserData.objects.filter(user=request.user).last().created_at)
         ])
 
         return response
