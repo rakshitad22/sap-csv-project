@@ -4,8 +4,6 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from django.core.mail import send_mail
-from django.conf import settings
-
 from .models import UserData
 
 import random
@@ -39,7 +37,7 @@ def register_page(request):
         # Generate OTP
         otp = random.randint(100000, 999999)
 
-        # Save in Session
+        # Store Session
         request.session['otp'] = str(otp)
         request.session['username'] = username
         request.session['email'] = email
@@ -49,9 +47,9 @@ def register_page(request):
         send_mail(
             'OTP Verification',
             f'Your OTP is: {otp}',
-            settings.EMAIL_HOST_USER,
+            'rakshitad76@gmail.com',
             [email],
-            fail_silently=True,
+            fail_silently=False,
         )
 
         return redirect('/verify-otp/')
@@ -75,7 +73,7 @@ def verify_otp(request):
             email = request.session.get('email')
             password = request.session.get('password')
 
-            # Final Safety Checks
+            # Final Checks
             if User.objects.filter(username=username).exists():
 
                 return render(request, 'verify_otp.html', {
@@ -155,9 +153,7 @@ def dashboard(request):
 
         response = HttpResponse(content_type='text/csv')
 
-        response['Content-Disposition'] = (
-            f'attachment; filename="{name}.csv"'
-        )
+        response['Content-Disposition'] = f'attachment; filename="{name}.csv"'
 
         writer = csv.writer(response)
 

@@ -159,6 +159,6 @@ EMAIL_PORT = 587
 
 EMAIL_USE_TLS = True
 
-EMAIL_HOST_USER = os.getenv('rakshitad76@gmail.com')
+EMAIL_HOST_USER = 'rakshitad76@gmail.com'
 
-EMAIL_HOST_PASSWORD = os.getenv('fbsdzsjjkscuzmbp')
+EMAIL_HOST_PASSWORD = 'fbsdzsjjkscuzmbp'
