@@ -44,18 +44,18 @@ def register_page(request):
         request.session['password'] = password
 
         # Send OTP Email
-    try:
+        try:
 
-        send_mail(
-            'OTP Verification',
-            f'Your OTP is: {otp}',
-            'rakshitad76@gmail.com',
-            [email],
-            fail_silently=True,
-        )
+            send_mail(
+                'OTP Verification',
+                f'Your OTP is: {otp}',
+                'rakshitad76@gmail.com',
+                [email],
+                fail_silently=True,
+            )
 
-    except:
-        pass
+        except:
+            pass
 
         return redirect('/verify-otp/')
 
