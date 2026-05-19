@@ -4,7 +4,10 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.http import HttpResponse
 from django.core.mail import send_mail
+from django.conf import settings
+
 from .models import UserData
+
 import random
 import csv
 
@@ -19,14 +22,14 @@ def register_page(request):
         email = request.POST['email']
         password = request.POST['password']
 
-        # Duplicate username
+        # Username Check
         if User.objects.filter(username=username).exists():
 
             return render(request, 'register.html', {
                 'error': 'Username already exists'
             })
 
-        # Duplicate email
+        # Email Check
         if User.objects.filter(email=email).exists():
 
             return render(request, 'register.html', {
@@ -36,16 +39,20 @@ def register_page(request):
         # Generate OTP
         otp = random.randint(100000, 999999)
 
-        # Store in session
+        # Save in Session
         request.session['otp'] = str(otp)
         request.session['username'] = username
         request.session['email'] = email
         request.session['password'] = password
 
-        # Send Email
-        request.session['display_otp'] = otp
-
-        return redirect('/verify-otp/')
+        # Send OTP Email
+        send_mail(
+            'OTP Verification',
+            f'Your OTP is: {otp}',
+            settings.EMAIL_HOST_USER,
+            [email],
+            fail_silently=False,
+        )
 
         return redirect('/verify-otp/')
 
@@ -68,27 +75,27 @@ def verify_otp(request):
             email = request.session.get('email')
             password = request.session.get('password')
 
-            # Check again before creating user
+            # Final Safety Checks
             if User.objects.filter(username=username).exists():
 
                 return render(request, 'verify_otp.html', {
-                    'error': 'Username already exists. Please register again.'
+                    'error': 'Username already exists'
                 })
 
             if User.objects.filter(email=email).exists():
 
                 return render(request, 'verify_otp.html', {
-                    'error': 'Email already registered.'
+                    'error': 'Email already exists'
                 })
 
-            # Create user
+            # Create User
             User.objects.create_user(
                 username=username,
                 email=email,
                 password=password
             )
 
-            # Clear session
+            # Clear Session
             request.session.flush()
 
             return redirect('/')
@@ -99,9 +106,7 @@ def verify_otp(request):
                 'error': 'Invalid OTP'
             })
 
-    return render(request, 'verify_otp.html', {
-    'otp': request.session.get('display_otp')
-})
+    return render(request, 'verify_otp.html')
 
 
 # LOGIN
@@ -150,7 +155,9 @@ def dashboard(request):
 
         response = HttpResponse(content_type='text/csv')
 
-        response['Content-Disposition'] = f'attachment; filename=\"{name}.csv\"'
+        response['Content-Disposition'] = (
+            f'attachment; filename="{name}.csv"'
+        )
 
         writer = csv.writer(response)
 
