@@ -20,96 +20,27 @@ def register_page(request):
         email = request.POST['email']
         password = request.POST['password']
 
-        # Username Check
         if User.objects.filter(username=username).exists():
 
             return render(request, 'register.html', {
                 'error': 'Username already exists'
             })
 
-        # Email Check
         if User.objects.filter(email=email).exists():
 
             return render(request, 'register.html', {
                 'error': 'Email already registered'
             })
 
-        # Generate OTP
-        otp = random.randint(100000, 999999)
+        User.objects.create_user(
+            username=username,
+            email=email,
+            password=password
+        )
 
-        # Store Session
-        request.session['otp'] = str(otp)
-        request.session['username'] = username
-        request.session['email'] = email
-        request.session['password'] = password
-
-        # Send OTP Email
-        try:
-
-            send_mail(
-                'OTP Verification',
-                f'Your OTP is: {otp}',
-                'rakshitad76@gmail.com',
-                [email],
-                fail_silently=True,
-            )
-
-        except:
-            pass
-
-        return redirect('/verify-otp/')
+        return redirect('/')
 
     return render(request, 'register.html')
-
-
-# VERIFY OTP
-
-def verify_otp(request):
-
-    if request.method == 'POST':
-
-        entered_otp = request.POST['otp']
-
-        saved_otp = request.session.get('otp')
-
-        if entered_otp == saved_otp:
-
-            username = request.session.get('username')
-            email = request.session.get('email')
-            password = request.session.get('password')
-
-            # Final Checks
-            if User.objects.filter(username=username).exists():
-
-                return render(request, 'verify_otp.html', {
-                    'error': 'Username already exists'
-                })
-
-            if User.objects.filter(email=email).exists():
-
-                return render(request, 'verify_otp.html', {
-                    'error': 'Email already exists'
-                })
-
-            # Create User
-            User.objects.create_user(
-                username=username,
-                email=email,
-                password=password
-            )
-
-            # Clear Session
-            request.session.flush()
-
-            return redirect('/')
-
-        else:
-
-            return render(request, 'verify_otp.html', {
-                'error': 'Invalid OTP'
-            })
-
-    return render(request, 'verify_otp.html')
 
 
 # LOGIN
