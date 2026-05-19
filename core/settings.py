@@ -1,14 +1,17 @@
 import os
 from pathlib import Path
 
-# Base Directory
+# BASE DIRECTORY
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 
-# SECURITY SETTINGS
+# SECURITY
 
-SECRET_KEY = "django-insecure-q*t3$q6f(p)b!k0t4=b#q&njbw#scq%c=2t1+q_mv#nu_#@)ab"
+SECRET_KEY = os.getenv(
+    'SECRET_KEY',
+    'django-insecure-q*t3$q6f(p)b!k0t4=b#q&njbw#scq%c=2t1+q_mv#nu_#@)ab'
+)
 
 DEBUG = True
 
@@ -18,6 +21,7 @@ ALLOWED_HOSTS = ['*']
 # INSTALLED APPS
 
 INSTALLED_APPS = [
+
     "django.contrib.admin",
     "django.contrib.auth",
     "django.contrib.contenttypes",
@@ -26,6 +30,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
 
     'users',
+
 ]
 
 
@@ -98,7 +103,7 @@ DATABASES = {
 }
 
 
-# PASSWORD VALIDATORS
+# PASSWORD VALIDATION
 
 AUTH_PASSWORD_VALIDATORS = [
 
@@ -121,7 +126,7 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 
-# LANGUAGE SETTINGS
+# LANGUAGE
 
 LANGUAGE_CODE = "en-us"
 
@@ -144,7 +149,7 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
 
-# EMAIL CONFIGURATION FOR OTP
+# EMAIL CONFIGURATION
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 
