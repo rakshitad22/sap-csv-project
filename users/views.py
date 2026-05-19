@@ -43,13 +43,9 @@ def register_page(request):
         request.session['password'] = password
 
         # Send Email
-        send_mail(
-            'OTP Verification',
-            f'Your OTP is: {otp}',
-            'rakshitad76@gmail.com',
-            [email],
-            fail_silently=False,
-        )
+        request.session['display_otp'] = otp
+
+        return redirect('/verify-otp/')
 
         return redirect('/verify-otp/')
 
@@ -103,7 +99,9 @@ def verify_otp(request):
                 'error': 'Invalid OTP'
             })
 
-    return render(request, 'verify_otp.html')
+    return render(request, 'verify_otp.html', {
+    'otp': request.session.get('display_otp')
+})
 
 
 # LOGIN
