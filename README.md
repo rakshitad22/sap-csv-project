@@ -81,3 +81,22 @@ The project is successfully deployed on Render Cloud Platform.
 
 ```bash
 git clone https://github.com/rakshitad22/sap-csv-project.git
+
+Move to Project Folder
+cd sap-csv-project
+Create Virtual Environment
+python -m venv venv
+Activate Virtual Environment
+Windows
+venv\Scripts\activate
+Install Requirements
+pip install -r requirements.txt
+Run Migrations
+python manage.py migrate
+Start Server
+python manage.py runserver
+👩‍💻 Developed By
+
+Rakshita D
+SKIT
+SAP Code Unnati Advanced Course
